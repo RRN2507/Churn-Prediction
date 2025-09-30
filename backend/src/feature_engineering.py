@@ -21,16 +21,18 @@ def create_features(df):
     # Tenure groups
     if df['tenure'].dtype in ['int64', 'float64']:
         df['TenureGroup'] = pd.cut(df['tenure'], 
-                                   bins=[0, 12, 24, 48, 72],
-                                   labels=[0, 1, 2, 3])
-        df['TenureGroup'] = df['TenureGroup'].astype(int)
+                                   bins=[-1, 12, 24, 48, 100],
+                                   labels=[0, 1, 2, 3],
+                                   include_lowest=True)
+        df['TenureGroup'] = df['TenureGroup'].cat.codes
     
     # Monthly charges groups
     if df['MonthlyCharges'].dtype in ['int64', 'float64']:
         df['ChargeGroup'] = pd.cut(df['MonthlyCharges'],
-                                   bins=[0, 35, 70, 100, 150],
-                                   labels=[0, 1, 2, 3])
-        df['ChargeGroup'] = df['ChargeGroup'].astype(int)
+                                   bins=[-1, 35, 70, 100, 200],
+                                   labels=[0, 1, 2, 3],
+                                   include_lowest=True)
+        df['ChargeGroup'] = df['ChargeGroup'].cat.codes
     
     return df
 
